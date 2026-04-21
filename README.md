@@ -1,20 +1,20 @@
 # Affonso Giaffone — Motor Racing Performance
 
-> **Projeto vendido e entregue a cliente internacional (EUA)** — website institucional profissional desenvolvido para o ex-piloto **Affonso Giaffone** (Indianapolis 500 1997, FIA F3 Sul-Americano Champion 1991), publicado em produção no domínio oficial **[giaffone.com](https://giaffone.com)**.
+> **Projeto desenvolvido e entregue a cliente internacional (EUA)** — website institucional profissional desenvolvido para o ex-piloto **Affonso Giaffone** (Indianapolis 500 1997, FIA F3 Sul-Americano Champion 1991), publicado em produção no domínio oficial **[giaffone.com](https://giaffone.com)**.
 
 ---
 
 ## Sobre o projeto
 
-Website institucional **em inglês**, desenvolvido sob demanda para um cliente americano nativo, apresentando a trajetória esportiva e os serviços de **coaching, performance e consultoria** no automobilismo internacional oferecidos pelo piloto.
+Website institucional **em inglês**, desenvolvido para um cliente americano nativo, apresentando a trajetória esportiva e os serviços de **coaching, performance e consultoria** no automobilismo internacional oferecidos pelo piloto.
 
-O projeto foi idealizado, desenvolvido, entregue e **colocado em produção** por mim como freelancer, com foco em experiência cinematográfica, alta performance e design institucional moderno.
+O projeto foi idealizado, desenvolvido, entregue e **colocado em produção** por mim, com foco em experiência cinematográfica, alta performance e design institucional moderno.
 
 - **Cliente:** Affonso Giaffone (EUA)
 - **Domínio em produção:** [giaffone.com](https://giaffone.com)
 - **Idioma:** Inglês (EN-US)
 - **Data de entrega:** Março de 2026
-- **Modelo de trabalho:** Freelance internacional
+- **Tipo de projeto:** Trabalho autoral entregue a cliente internacional
 
 ---
 
@@ -110,13 +110,13 @@ Atualmente oferece serviços de **coaching, performance engineering e consultori
 
 ## Resultado
 
-Projeto **vendido, entregue e em produção** desde março de 2026, atendendo diretamente ao mercado americano com padrão de qualidade internacional — do design institucional à experiência cinematográfica de abertura com IA generativa.
+Projeto **desenvolvido, entregue e em produção** desde março de 2026, atendendo diretamente a cliente do mercado americano com padrão de qualidade internacional — do design institucional à experiência cinematográfica de abertura com IA generativa.
 
 ---
 
 ## Autor
 
-Desenvolvido por **Bevilaqua** como projeto freelance internacional.
+Desenvolvido por **Bevilaqua** como projeto autoral para cliente internacional.
 
 > Quer um site institucional nesse mesmo padrão? Entre em contato.
 
