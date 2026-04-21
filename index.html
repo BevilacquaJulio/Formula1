@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Affonso Giaffone — Motor Racing Performance</title>
+
+  <!--
+    Teko: cinematic display headings (weights 400 / 500 / 700)
+    Inter: clean body copy
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Barlow:wght@300;400;500&family=Bebas+Neue&family=Inter:wght@300;400;500&family=Teko:wght@400;500;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!--
+    ══════════════════════════════════════════════
+    ANIMATION STAGE
+    Fixed full-screen layer. Holds canvas + purely
+    decorative overlays (vignette, grain).
+    The text overlay and site page are siblings,
+    NOT descendants, to avoid stacking-context
+    compositing artifacts.
+    ══════════════════════════════════════════════
+  -->
+  <div id="stage">
+    <canvas id="canvas"></canvas>
+    <div id="vignette"></div>
+    <div id="grain"></div>
+  </div>
+
+  <!--
+    ══════════════════════════════════════════════
+    INTRO TEXT OVERLAY
+    Visible from frame 00 (opacity:1). Fades OUT
+    as the animation plays. Fixed sibling of #stage.
+    No background panel, no backdrop-filter.
+    ══════════════════════════════════════════════
+  -->
+  <div id="overlay-intro">
+    <p class="overlay-eyebrow">Motor Racing Performance</p>
+    <h1 id="overlay-title">Affonso Giaffone</h1>
+    <p id="overlay-sub2">Coaching &amp; Consulting</p>
+  </div>
+
+  <!--
+    ══════════════════════════════════════════════
+    END TEXT OVERLAY
+    Hidden at start (opacity:0). Fades IN near the
+    last frame. Contains the "scroll down" CTA and
+    the circular enter-hint (appears when the user
+    actually starts scrolling to enter the site).
+    ══════════════════════════════════════════════
+  -->
+  <div id="overlay-end" aria-hidden="true">
+    <p id="overlay-scroll-label">SCROLL DOWN TO VISIT MY WEBSITE</p>
+    <div id="enter-hint" class="enter-hint" aria-hidden="true">
+      <div class="enter-hint__icon">
+        <svg class="enter-hint__progress" viewBox="0 0 48 48" aria-hidden="true">
+          <circle class="enter-hint__track" cx="24" cy="24" r="20" fill="none" stroke-width="2" />
+          <circle id="enter-hint-fill" class="enter-hint__fill" cx="24" cy="24" r="20" fill="none" stroke-width="2"
+            stroke-dasharray="125.6" stroke-dashoffset="125.6" stroke-linecap="round" />
+        </svg>
+        <svg class="enter-hint__arrow" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 19V5M7 14l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" fill="none" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    ══════════════════════════════════════════════
+    SITE PAGE
+    Fixed full-screen, initially invisible and
+    non-interactive (opacity:0, pointer-events:none).
+    JS adds class .is-visible after the animation
+    stability threshold is met.
+    overflow-y:auto enables internal scrolling while
+    keeping body scroll disabled.
+    Anchor links are intercepted by JS to scroll
+    within this fixed container.
+    ══════════════════════════════════════════════
+  -->
+  <div id="site" aria-hidden="true">
+
+    <!-- ── Header ─────────────────────────────── -->
+    <header id="site-header">
+      <div class="header-inner">
+        <a href="#home" class="header-brand" aria-label="Home">
+          <img src="img/logo/logo.png" alt="Affonso Giaffone" class="header-logo" />
+        </a>
+
+        <!-- ── Exit hint: arrow + circular progress (scroll up at top to return) ── -->
+        <div id="exit-hint" class="exit-hint" aria-hidden="true">
+          <div class="exit-hint__icon">
+            <svg class="exit-hint__progress" viewBox="0 0 48 48" aria-hidden="true">
+              <circle class="exit-hint__track" cx="24" cy="24" r="20" fill="none" stroke-width="2" />
+              <circle id="exit-hint-fill" class="exit-hint__fill" cx="24" cy="24" r="20" fill="none" stroke-width="2"
+                stroke-dasharray="125.6" stroke-dashoffset="125.6" stroke-linecap="round" />
+            </svg>
+            <svg class="exit-hint__arrow" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14M7 10l5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" fill="none" />
+            </svg>
+          </div>
+          <span class="exit-hint__label">Scroll up to go back</span>
+        </div>
+
+        <nav aria-label="Main navigation">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#video">Las Vegas '97</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
+      </div>
+
+      <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#video">Las Vegas '97</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </header>
+
+    <!-- ── Main content ───────────────────────── -->
+    <main>
+
+      <!-- Home / Hero -->
+      <section id="home" class="section section--hero">
+        <div class="hero-bg"></div>
+        <div class="section-inner hero-inner">
+          <p class="hero-tag">Motor Racing Performance</p>
+          <h2 class="hero-title">
+            Driven by<br>Precision.
+          </h2>
+          <a href="#contact" class="btn-cta btn-cta--hero">Work With Me</a>
+        </div>
+      </section>
+
+      <!-- Services -->
+      <section id="services" class="section section--services">
+        <div class="section-inner section-inner--services">
+          <div class="service-card">
+            <h3 class="service-title">COACHING</h3>
+            <p class="service-desc">From Go-Karts and Junior Formulas to Endurance Racing, helping drivers of all ages
+              and skills achieve optimal results.</p>
+          </div>
+          <div class="service-card">
+            <h3 class="service-title">PERFORMANCE</h3>
+            <p class="service-desc">Race engineer support with advanced racecar data analysis and track data correlation
+              to improve lap times.</p>
+          </div>
+          <div class="service-card">
+            <h3 class="service-title">CONSULTING</h3>
+            <p class="service-desc">Racetrack design updates, team selection for young drivers, and racing equipment
+              sourcing.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Achievements -->
+      <section id="achievements" class="section section--achievements">
+        <div class="achievements-bg"></div>
+        <div class="section-inner section-inner--achievements">
+          <h2 class="achievements-title">Racing Achievements</h2>
+          <div class="achievement-list">
+            <p>FIA Formula 3 South American Champion - 1991</p>
+            <p>Indy NXT Rookie of the Year - 3rd Place in Championship - 1995</p>
+            <p>Indycar and Indy 500 - 1997</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="section section--about">
+        <div class="about-hero">
+          <div class="about-hero-bg-text">RACING</div>
+          <div class="about-hero-content">
+            <p class="about-hero-eyebrow">The Story</p>
+            <h2 class="about-hero-title">About <span>Me</span></h2>
+          </div>
+        </div>
+
+        <div class="section-inner section-inner--about">
+          <div class="about-section-header">
+            <span class="about-section-label">Racing Career</span>
+          </div>
+          <div class="about-timeline">
+            <div class="tl-item">
+              <div class="tl-year">1987 to 1988</div>
+              <div class="tl-body">
+                <div class="tl-title">Brazilian Formula Ford</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">1989</div>
+              <div class="tl-body">
+                <div class="tl-title">British Formula Vauxhall</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">1990 to 1992</div>
+              <div class="tl-body">
+                <div class="tl-title">FIA F3 Sudamericana</div>
+                <span class="tl-badge">South American F3 Champion 1991</span>
+              </div>
+            </div>
+            <div class="tl-item tl-sabbatical">
+              <div class="tl-year">1993 to 1994</div>
+              <div class="tl-body">
+                <div class="tl-title">Sabbatical</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">1995</div>
+              <div class="tl-body">
+                <div class="tl-title">Indy Lights Championship</div>
+                <span class="tl-badge">Rookie of the Year · 3rd in Championship</span>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">1996</div>
+              <div class="tl-body">
+                <div class="tl-title">Indy Racing League</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">1997</div>
+              <div class="tl-body">
+                <div class="tl-title">Indy Racing League</div>
+                <span class="tl-badge">Indianapolis 500</span>
+              </div>
+            </div>
+            <div class="tl-item tl-sabbatical">
+              <div class="tl-year">1998 to 1999</div>
+              <div class="tl-body">
+                <div class="tl-title">Sabbatical</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2000</div>
+              <div class="tl-body">
+                <div class="tl-title">Brazilian Stock Car</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-section-header">
+            <span class="about-section-label">Motorsport Work Experience</span>
+          </div>
+          <div class="about-timeline">
+            <div class="tl-item">
+              <div class="tl-year">2006</div>
+              <div class="tl-body">
+                <div class="tl-title">Brazilian Stock Jr Championship</div>
+                <div class="tl-subtitle">Series Driver Coach and Technical Consultant</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2007</div>
+              <div class="tl-body">
+                <div class="tl-title">Brazilian Stock Car Championship</div>
+                <div class="tl-subtitle">Data Analysis – AMG Racing</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2008 to 2009</div>
+              <div class="tl-body">
+                <div class="tl-title">Brazilian Stock Car Championship</div>
+                <div class="tl-subtitle">Racing Engineer and Data Analysis – AMG Racing</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2010 to 2012</div>
+              <div class="tl-body">
+                <div class="tl-title">Brazilian Stock Car Championship</div>
+                <div class="tl-subtitle">Racing Engineer and Data Analysis – Fulltime Racing</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2000 to 2019</div>
+              <div class="tl-body">
+                <div class="tl-title">Porsche Club Brazil / Porsche GT3 Cup Brazil</div>
+                <div class="tl-subtitle">Instructor Driver / Driver Coach</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2000 to 2019</div>
+              <div class="tl-body">
+                <div class="tl-title">2 Drive Brazil</div>
+                <div class="tl-subtitle">Instructor: Jaguar, Audi, BMW-M, Range Rover etc. car launches</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-gallery">
+            <div class="section-header">
+              <div class="eyebrow">Racing Legacy</div>
+              <h2>PHOTO <span>GALLERY</span></h2>
+            </div>
+
+            <div class="carousel-wrapper">
+              <div class="carousel-track-container">
+                <div class="carousel-track" id="carouselTrack">
+                  <div class="slide active"><img src="img/1.jpg" alt=""></div>
+                  <div class="slide"><img src="img/2.jpg" alt=""></div>
+                  <div class="slide"><img src="img/3.jpg" alt=""></div>
+                  <div class="slide"><img src="img/4.jpg" alt=""></div>
+                  <div class="slide"><img src="img/5.jpg" alt=""></div>
+                  <div class="slide"><img src="img/6.jpg" alt=""></div>
+                  <div class="slide"><img src="img/7.jpg" alt=""></div>
+                  <div class="slide"><img src="img/8.jpg" alt=""></div>
+                  <div class="slide"><img src="img/9.jpg" alt=""></div>
+                  <div class="slide"><img src="img/10.jpg" alt=""></div>
+                  <div class="slide"><img src="img/11.jpg" alt=""></div>
+                  <div class="slide"><img src="img/12.jpg" alt=""></div>
+                  <div class="slide"><img src="img/13.jpg" alt=""></div>
+                  <div class="slide"><img src="img/14.jpg" alt=""></div>
+                  <div class="slide"><img src="img/15.jpg" alt=""></div>
+                  <div class="slide"><img src="img/16.jpg" alt=""></div>
+                  <div class="slide"><img src="img/17.jpg" alt=""></div>
+                  <div class="slide"><img src="img/18.jpg" alt=""></div>
+                  <div class="slide"><img src="img/19.jpg" alt=""></div>
+                  <div class="slide"><img src="img/20.jpg" alt=""></div>
+                  <div class="slide"><img src="img/21.jpg" alt=""></div>
+                </div>
+              </div>
+
+              <div class="counter">
+                <span class="counter-current" id="counterCurrent">01</span>
+                <span class="counter-sep">/</span>
+                <span class="counter-total" id="counterTotal">21</span>
+              </div>
+
+              <button type="button" class="nav-btn nav-prev" id="carouselPrevBtn" aria-label="Previous">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <button type="button" class="nav-btn nav-next" id="carouselNextBtn" aria-label="Next">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+
+              <div class="thumbnails" id="carouselThumbnails"></div>
+
+              <div class="progress-bar">
+                <div class="progress-fill" id="carouselProgressFill"></div>
+              </div>
+
+              <div class="dots" id="carouselDots"></div>
+            </div>
+          </div>
+
+          <!-- Video Section -->
+          <div id="video" class="about-video-section">
+            <div class="section-header">
+              <div class="eyebrow">Behind the Wheel</div>
+              <h2>Las Vegas <span>'97</span></h2>
+            </div>
+
+            <div class="vid-wrapper">
+              <div class="vid-corner vid-corner-tl"></div>
+              <div class="vid-corner vid-corner-tr"></div>
+              <div class="vid-corner vid-corner-bl"></div>
+              <div class="vid-corner vid-corner-br"></div>
+
+              <div class="vid-container" id="vidContainer">
+
+                <div class="vid-badge">
+                  <div class="vid-badge-dot"></div>
+                  <span class="vid-badge-text">Giaffone Racing</span>
+                </div>
+
+                <div class="vid-overlay" id="vidOverlay">
+                  <div class="vid-play-glow"></div>
+                  <div class="vid-play-btn" id="vidPlayBtn">
+                    <div class="vid-play-ring"></div>
+                    <div class="vid-play-circle">
+                      <div class="vid-play-icon"></div>
+                    </div>
+                  </div>
+                  <span class="vid-overlay-label">Play Video</span>
+                </div>
+
+                <video id="raceVideo" preload="metadata" playsinline>
+                  <source src="img/video/video_lasvegas_1997.mp4" type="video/mp4">
+                </video>
+
+                <div class="vid-bar">
+                  <button class="vid-bar-btn" id="vidToggleBtn" aria-label="Play/Pause">
+                    <svg id="vidIconPlay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    <svg id="vidIconPause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                  </button>
+                  <div class="vid-progress-track" id="vidProgressTrack">
+                    <div class="vid-progress-fill" id="vidProgressFill"></div>
+                    <div class="vid-progress-thumb" id="vidProgressThumb"></div>
+                  </div>
+                  <span class="vid-bar-time" id="vidTimeDisplay">0:00 / 0:00</span>
+                  <button class="vid-bar-btn" id="vidMuteBtn" aria-label="Mute">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                  </button>
+                  <button class="vid-bar-btn" id="vidFsBtn" aria-label="Fullscreen">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="vid-meta">
+              <div class="vid-title">Las Vegas 1997 — Indy Racing League</div>
+              <div class="vid-desc">Race Footage · AG Racing Archive</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="section section--contact">
+        <div class="contact-section">
+          <div class="contact-eyebrow">Get In Touch</div>
+          <h2 class="contact-title">Start Your <span>Journey</span></h2>
+          <p class="contact-subtitle">Ready to take your racing career to the next level? Send a message and let's talk.</p>
+
+          <!-- Formspree: crie conta em formspree.io, novo formulário, use o e-mail affonso@giaffone.com, copie o ID e substitua YOUR_FORM_ID abaixo -->
+          <form class="contact-form" id="contactForm" action="https://formspree.io/f/mbdabqqe" method="POST">
+            <input type="hidden" name="_subject" value="Novo contato - Affonso Giaffone" />
+            <div class="contact-form-row">
+              <div class="contact-field">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="Your name" autocomplete="name" required />
+              </div>
+              <div class="contact-field">
+                <label>E-mail</label>
+                <input type="email" name="_replyto" placeholder="your@email.com" autocomplete="email" required />
+              </div>
+            </div>
+
+            <div class="contact-field contact-field--full contact-field--phone">
+              <label>Phone</label>
+              <div class="contact-phone-wrap">
+                <select name="phone_code" class="contact-phone-code" aria-label="Código do país" title="Código do país">
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+55" selected>🇧🇷 +55</option>
+                  <option value="+44">🇬🇧 +44</option>
+                  <option value="+351">🇵🇹 +351</option>
+                  <option value="+34">🇪🇸 +34</option>
+                  <option value="+49">🇩🇪 +49</option>
+                  <option value="+39">🇮🇹 +39</option>
+                  <option value="+33">🇫🇷 +33</option>
+                  <option value="+52">🇲🇽 +52</option>
+                  <option value="+54">🇦🇷 +54</option>
+                  <option value="+56">🇨🇱 +56</option>
+                  <option value="+57">🇨🇴 +57</option>
+                  <option value="+61">🇦🇺 +61</option>
+                  <option value="+81">🇯🇵 +81</option>
+                  <option value="+86">🇨🇳 +86</option>
+                  <option value="+91">🇮🇳 +91</option>
+                  <option value="+7">🇷🇺 +7</option>
+                  <option value="+353">🇮🇪 +353</option>
+                  <option value="+31">🇳🇱 +31</option>
+                  <option value="+32">🇧🇪 +32</option>
+                  <option value="+41">🇨🇭 +41</option>
+                  <option value="+43">🇦🇹 +43</option>
+                  <option value="+46">🇸🇪 +46</option>
+                  <option value="+47">🇳🇴 +47</option>
+                  <option value="+48">🇵🇱 +48</option>
+                  <option value="+358">🇫🇮 +358</option>
+                </select>
+                <input type="tel" name="phone" placeholder="(00) 00000-0000" autocomplete="tel" />
+              </div>
+            </div>
+
+            <div class="contact-field contact-field--full">
+              <label>Tell me about your goals</label>
+              <textarea name="message" placeholder="Describe your racing background and what you're looking to achieve..." rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="contact-btn-submit"><span>Send Message</span></button>
+          </form>
+
+          <div class="contact-divider">
+            <span class="contact-divider-label">Or reach out directly</span>
+          </div>
+
+          <div class="contact-info">
+            <a href="tel:+13058901255" class="contact-item">
+              <div class="contact-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.63 19.79 19.79 0 01.08 4.1 2 2 0 012.04 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              </div>
+              <span class="contact-item-label">Phone</span>
+              <span class="contact-item-value">+1 (305) 890-1255</span>
+            </a>
+
+            <a href="mailto:affonso@giaffone.com" class="contact-item">
+              <div class="contact-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <span class="contact-item-label">E-mail</span>
+              <span class="contact-item-value">affonso@giaffone.com</span>
+            </a>
+          </div>
+
+          <a href="https://instagram.com/giaffone" target="_blank" rel="noopener" class="contact-instagram-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+            <span>Follow on Instagram</span>
+          </a>
+
+          <p class="contact-footer-copy">Giaffone Racing LLC © 2025</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="site-footer">
+      <p>© 2026 Affonso Giaffone. All rights reserved.</p>
+    </footer>
+
+  </div><!-- /#site -->
+
+  <script src="script.js"></script>
+</body>
+
+</html>
