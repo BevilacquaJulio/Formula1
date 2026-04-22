@@ -1,20 +1,19 @@
 # Affonso Giaffone — Motor Racing Performance
 
-> **Projeto desenvolvido e entregue a cliente internacional (EUA)** — website institucional profissional desenvolvido para o ex-piloto **Affonso Giaffone** (Indianapolis 500 1997, FIA F3 Sul-Americano Champion 1991), publicado em produção no domínio oficial **[giaffone.com](https://giaffone.com)**.
+> Website institucional em inglês para o ex-piloto **Affonso Giaffone** (Indianapolis 500 1997, FIA F3 Sul-Americano Champion 1991), apresentando sua trajetória esportiva e serviços de coaching, performance e consultoria no automobilismo internacional.
+>
+> **Hospedado em produção:** [giaffone.com](https://giaffone.com)
 
 ---
 
 ## Sobre o projeto
 
-Website institucional **em inglês**, desenvolvido para um cliente americano nativo, apresentando a trajetória esportiva e os serviços de **coaching, performance e consultoria** no automobilismo internacional oferecidos pelo piloto.
+Landing page institucional **em inglês (EN-US)**, com experiência cinematográfica de abertura, timeline de carreira, galeria de fotos, player de vídeo customizado e formulário de contato internacional.
 
-O projeto foi idealizado, desenvolvido, entregue e **colocado em produção** por mim, com foco em experiência cinematográfica, alta performance e design institucional moderno.
-
-- **Cliente:** Affonso Giaffone (EUA)
 - **Domínio em produção:** [giaffone.com](https://giaffone.com)
 - **Idioma:** Inglês (EN-US)
-- **Data de entrega:** Março de 2026
-- **Tipo de projeto:** Trabalho autoral entregue a cliente internacional
+- **Publicação:** Março de 2026
+- **Nicho:** Motor Racing / Coaching esportivo
 
 ---
 
@@ -22,9 +21,10 @@ O projeto foi idealizado, desenvolvido, entregue e **colocado em produção** po
 
 ### Animação cinematográfica de abertura (IA generativa)
 
-A experiência de entrada do site apresenta uma **animação em tela cheia sincronizada com o scroll**, criando a sensação de um trailer cinematográfico antes da revelação do site propriamente dito.
+A entrada do site apresenta uma **animação em tela cheia sincronizada com o scroll**, criando a sensação de um trailer cinematográfico antes da revelação do site propriamente dito.
 
 **Como foi feita:**
+
 1. A animação original foi gerada com **Google Veo 3.1** (modelo de IA generativa de vídeo do Google).
 2. O vídeo foi **exportado como sequência de frames em JPG**.
 3. No front-end, os frames são renderizados **quadro a quadro em um elemento `<canvas>`**, controlados por JavaScript puro.
@@ -56,7 +56,7 @@ O resultado é uma abertura fluida, responsiva à interação e totalmente custo
 | Backend de formulário | Formspree |
 | Tipografia | Google Fonts (Teko, Barlow Condensed, Bebas Neue, Inter) |
 | Iconografia | SVG inline customizado |
-| Hospedagem | Produção em domínio próprio ([giaffone.com](https://giaffone.com)) |
+| Hospedagem | [giaffone.com](https://giaffone.com) |
 
 ---
 
@@ -95,9 +95,9 @@ pagina_web/
 
 ---
 
-## Sobre o cliente
+## Sobre Affonso Giaffone
 
-**Affonso Giaffone** é ex-piloto profissional de automobilismo, com trajetória internacional que inclui:
+Ex-piloto profissional de automobilismo, com trajetória internacional que inclui:
 
 - Campeão FIA F3 Sul-Americano — **1991**
 - Indy Lights — Rookie of the Year e 3º no campeonato — **1995**
@@ -108,18 +108,16 @@ Atualmente oferece serviços de **coaching, performance engineering e consultori
 
 ---
 
-## Resultado
+## Acesso ao site
 
-Projeto **desenvolvido, entregue e em produção** desde março de 2026, atendendo diretamente a cliente do mercado americano com padrão de qualidade internacional — do design institucional à experiência cinematográfica de abertura com IA generativa.
+O projeto está publicado e em produção em **[giaffone.com](https://giaffone.com)**.
 
 ---
 
 ## Autor
 
-Desenvolvido por **Bevilaqua** como projeto autoral para cliente internacional.
-
-> Quer um site institucional nesse mesmo padrão? Entre em contato.
+Desenvolvido por **Bevilaqua**.
 
 ---
 
-*© 2026 — Este repositório é exibido como portfólio. Os direitos do site publicado e da marca Giaffone Racing pertencem ao cliente.*
+*© 2026 — Os direitos da marca Giaffone Racing pertencem ao titular.*
