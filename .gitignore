@@ -1,0 +1,51 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies & build
+node_modules
+dist
+dist-ssr
+*.local
+
+# Environment (dados do cliente — nunca commitar)
+.env
+.env.*
+!.env.example
+
+# Pacote privado de entrega ao comprador (dados + instruções)
+private/
+
+# Cache
+.vite
+.cache
+*.tsbuildinfo
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+Desktop.ini
+.cursor/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Mídia personalizada do cliente (entregue fora do repo público)
+public/frames/*
+!public/frames/.gitkeep
+public/gallery/*
+!public/gallery/.gitkeep
+public/logo/*
+!public/logo/.gitkeep
+public/video/*
+!public/video/.gitkeep
