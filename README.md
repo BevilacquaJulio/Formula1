@@ -173,21 +173,50 @@ npm run preview
 
 ## Deploy
 
-O projeto é totalmente client-side e pode ser servido como conteúdo estático por qualquer servidor web (Nginx, Caddy, Vercel, Netlify) ou via container.
+O projeto é totalmente client-side e é servido como conteúdo estático. O deploy de produção usa Docker (multi-stage build com Nginx) atrás de um proxy reverso Traefik.
 
-Passos gerais em um servidor:
+### Arquivos de infraestrutura
+
+| Arquivo | Função |
+|---------|--------|
+| `Dockerfile` | Build multi-stage: Node compila o Vite, Nginx serve o `dist/` |
+| `nginx.conf` | Configuração do Nginx (fallback de página única, gzip, cache) |
+| `docker-compose.yml` | Serviço da aplicação com labels do Traefik |
+| `.dockerignore` | Exclui `node_modules`, `dist`, docs e o pacote privado da imagem |
+
+### Importante sobre as variáveis de ambiente
+
+As variáveis `VITE_*` são compiladas em **tempo de build** (o Vite as injeta no JavaScript durante `npm run build`), não em runtime. Por isso o `.env` precisa estar presente na raiz durante o `docker compose build`. A imagem final (Nginx) contém apenas os arquivos estáticos, sem `.env` nem código-fonte.
+
+As variáveis `DOMAIN`, `TRAEFIK_ENTRYPOINT` e `TRAEFIK_CERT_RESOLVER` são usadas pelo Compose para configurar o roteamento do Traefik.
+
+### Passos no servidor
 
 ```bash
-git clone <repo> app
-cd app
-cp .env.example .env      # preencher as variáveis
-# copiar os arquivos de mídia para public/
-npm install
-npm run build
-# servir a pasta dist/
+git clone <repo> affonso-giaffone
+cd affonso-giaffone
+
+# 1. Variáveis de ambiente na raiz
+cp .env.example .env
+# editar .env: DOMAIN e as variáveis VITE_*
+
+# 2. Copiar as mídias (não vêm do repositório) para:
+#    public/frames, public/gallery, public/logo, public/video
+
+# 3. Build e subida
+docker compose build
+docker compose up -d
+
+# 4. Conferir
+docker logs affonso_giaffone
 ```
 
-Lembre-se de que `.env` e os arquivos em `public/` não vêm do repositório e precisam ser copiados manualmente para o servidor.
+Pré-requisitos na VPS:
+
+- A rede externa `traefik` já existe e o Traefik está rodando com um entrypoint HTTPS e um cert resolver (ex.: `letsencrypt`).
+- O DNS de `DOMAIN` aponta para o servidor.
+
+Lembre-se de que `.env` e os arquivos em `public/` não vêm do repositório e precisam ser copiados manualmente para o servidor antes do build.
 
 ---
 

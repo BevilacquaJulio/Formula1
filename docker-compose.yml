@@ -1,0 +1,22 @@
+services:
+  app:
+    image: affonso-giaffone-app
+    build: .
+    container_name: affonso_giaffone
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - "traefik.http.routers.affonso_giaffone.rule=Host(`${DOMAIN}`)"
+      - traefik.http.routers.affonso_giaffone.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.affonso_giaffone.tls=true
+      - traefik.http.routers.affonso_giaffone.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
+      - traefik.http.services.affonso_giaffone.loadbalancer.server.port=80
+
+networks:
+  traefik:
+    external: true

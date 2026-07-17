@@ -1,0 +1,25 @@
+# Dependencias e builds (recriados dentro do container)
+node_modules
+dist
+dist-ssr
+
+# Controle de versao e editor
+.git
+.gitignore
+.vscode
+.idea
+.cursor
+
+# Documentacao e pacote privado (nao vao para a imagem)
+private
+public.example
+*.md
+
+# Logs e cache
+*.log
+.vite
+.cache
+
+# ATENCAO: o .env NAO e ignorado de proposito.
+# As variaveis VITE_* sao compiladas em build-time pelo Vite (Stage 1).
+# A imagem final (Nginx) contem apenas dist/, sem .env nem codigo-fonte.
