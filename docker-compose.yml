@@ -1,8 +1,8 @@
 services:
   app:
-    image: affonso-giaffone-app
+    image: formula1-app
     build: .
-    container_name: affonso_giaffone
+    container_name: formula1-app
     restart: always
     env_file:
       - .env
