@@ -1,8 +1,8 @@
 services:
   app:
-    image: formula1-app
+    image: bl_formula1-app
     build: .
-    container_name: formula1-app
+    container_name: bl_formula1-app
     restart: always
     env_file:
       - .env
